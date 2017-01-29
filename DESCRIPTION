@@ -1,0 +1,20 @@
+Package: rbabylon
+Type: Package
+Title: interact with the babylon ecosystem from R
+Version: 0.0.2
+RoxygenNote: 5.0.1.9000
+Roxygen: list(markdown = TRUE)
+Authors@R: c(
+    person("Devin", "Pastoor", ,"devin.pastoor@gmail.com", role = c("aut", "cre"))
+    )
+Description: manage, submit, and process models  
+Depends:
+    R (>= 3.3.0)
+Imports:
+    dplyr,
+    httr,
+    jsonlite
+Suggests:
+    testthat
+License: MIT + file LICENSE
+VignetteBuilder: knitr
