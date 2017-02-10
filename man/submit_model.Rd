@@ -2,7 +2,7 @@
 % Please edit documentation in R/submit_model.R
 \name{submit_model}
 \alias{submit_model}
-\title{submit a model to an nmu server}
+\title{submit a model to an nmq server}
 \usage{
 submit_model(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
   .run_settings = NULL, .print = FALSE, .no_submit = FALSE)
@@ -25,11 +25,10 @@ submit_model(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
 \item{.no_submit}{dont actually submit, instead return the list of settings}
 }
 \description{
-submit a model to an nmu server
+submit a model to an nmq server
 }
 \details{
-\dontrun {
+\dontrun{
 # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
 }
 }
-
