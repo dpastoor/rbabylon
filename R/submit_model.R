@@ -1,4 +1,4 @@
-#' submit a model to an nmu server
+#' submit a model to an nmq server
 #' @param srvr address to the server
 #' @param modelpath absolute path to the model file to run
 #' @param clean_lvl level to clean nonmem intermediate files
@@ -7,7 +7,7 @@
 #' @param .run_settings override run settings by providing a named list
 #' @param .print print out the json representation of settings submitted
 #' @param .no_submit dont actually submit, instead return the list of settings
-#' @details \dontrun {
+#' @details \dontrun{
 #' # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
 #; res <- submit_model("http://localhost:3333/models", files, 5, 5)
 #' }
