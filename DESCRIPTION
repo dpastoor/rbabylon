@@ -2,7 +2,7 @@ Package: rbabylon
 Type: Package
 Title: interact with the babylon ecosystem from R
 Version: 0.0.2
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0
 Roxygen: list(markdown = TRUE)
 Authors@R: c(
     person("Devin", "Pastoor", ,"devin.pastoor@gmail.com", role = c("aut", "cre"))
