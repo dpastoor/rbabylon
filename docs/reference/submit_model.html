@@ -31,6 +31,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,24 +79,41 @@
   <span class='kw'>.run_settings</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.no_submit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>srvr</dt>
-      <dd>address to the server</dd>
-      <dt>modelpath</dt>
-      <dd>absolute path to the model file to run</dd>
-      <dt>clean_lvl</dt>
-      <dd>level to clean nonmem intermediate files</dd>
-      <dt>copy_lvl</dt>
-      <dd>level to determine how many files to copy back to parent dir</dd>
-      <dt>...</dt>
-      <dd>nothing right now</dd>
-      <dt>.run_settings</dt>
-      <dd>override run settings by providing a named list</dd>
-      <dt>.print</dt>
-      <dd>print out the json representation of settings submitted</dd>
-      <dt>.no_submit</dt>
-      <dd>dont actually submit, instead return the list of settings</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>srvr</th>
+      <td><p>address to the server</p></td>
+    </tr>
+    <tr>
+      <th>modelpath</th>
+      <td><p>absolute path to the model file to run</p></td>
+    </tr>
+    <tr>
+      <th>clean_lvl</th>
+      <td><p>level to clean nonmem intermediate files</p></td>
+    </tr>
+    <tr>
+      <th>copy_lvl</th>
+      <td><p>level to determine how many files to copy back to parent dir</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>nothing right now</p></td>
+    </tr>
+    <tr>
+      <th>.run_settings</th>
+      <td><p>override run settings by providing a named list</p></td>
+    </tr>
+    <tr>
+      <th>.print</th>
+      <td><p>print out the json representation of settings submitted</p></td>
+    </tr>
+    <tr>
+      <th>.no_submit</th>
+      <td><p>dont actually submit, instead return the list of settings</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
