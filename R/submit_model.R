@@ -4,6 +4,9 @@
 #' @param clean_lvl level to clean nonmem intermediate files
 #' @param copy_lvl level to determine how many files to copy back to parent dir
 #' @param ... nothing right now
+#' @param .cache_dir cache directory
+#' @param .save_exe name to save the precompiled executable for later reference
+#' @param .exe_name name of executable to use for execution
 #' @param .run_settings override run settings by providing a named list
 #' @param .print print out the json representation of settings submitted
 #' @param .no_submit dont actually submit, instead return the list of settings
@@ -17,7 +20,9 @@ submit_model <- function(srvr,
                          clean_lvl = 1,
                          copy_lvl = 1,
                          ...,
-                         .run_settings = NULL,
+                         .cache_dir = "",
+                         .save_exe = "",
+                         .exe_name = "",
                          .print = FALSE,
                          .no_submit = FALSE) {
     submission_values <- lapply(modelpath, function(m) {
@@ -28,13 +33,13 @@ submit_model <- function(srvr,
                 ModelPath = m,
                 RunSettings = list(
                     Git = TRUE,
-                    SaveExe = "",
+                    SaveExe = .save_exe,
                     Verbose = FALSE,
                     Debug = FALSE,
                     CleanLvl = clean_lvl,
                     CopyLvl = copy_lvl,
-                    CacheDir = "",
-                    ExeNameInCache = "",
+                    CacheDir = .cache_dir,
+                    ExeNameInCache = .exe_name,
                     NmExecutableOrPath = "nmfe74"
                 )
             ),
@@ -45,9 +50,7 @@ submit_model <- function(srvr,
             )
         )
     })
-    if (!is.null(.run_settings)) {
-        stop("overriding runSettings not yet implemented")
-    }
+
     submission_json <- jsonlite::toJSON(submission_values, auto_unbox = T)
 
     if (.print) {
