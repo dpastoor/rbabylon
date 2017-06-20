@@ -2,4 +2,4 @@
 
 export(last_est_dir_factory)
 export(read_fort_factory)
-export(submit_model)
+export(submit_models)
