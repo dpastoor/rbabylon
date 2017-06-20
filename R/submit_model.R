@@ -15,7 +15,7 @@
 #; res <- submit_model("http://localhost:3333/models", files, 5, 5)
 #' }
 #' @export
-submit_model <- function(srvr,
+submit_models <- function(srvr,
                          modelpath,
                          clean_lvl = 1,
                          copy_lvl = 1,
