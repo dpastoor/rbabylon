@@ -7,7 +7,7 @@
 #' @param .cache_dir cache directory
 #' @param .save_exe name to save the precompiled executable for later reference
 #' @param .exe_name name of executable to use for execution
-#' @param .run_settings override run settings by providing a named list
+#' @param .one_est only estimate if no estimation dir exists
 #' @param .print print out the json representation of settings submitted
 #' @param .no_submit dont actually submit, instead return the list of settings
 #' @details \dontrun{
@@ -23,6 +23,7 @@ submit_models <- function(srvr,
                          .cache_dir = "",
                          .save_exe = "",
                          .exe_name = "",
+                         .one_est = TRUE,
                          .print = FALSE,
                          .no_submit = FALSE) {
     submission_values <- lapply(modelpath, function(m) {
@@ -40,7 +41,8 @@ submit_models <- function(srvr,
                     CopyLvl = copy_lvl,
                     CacheDir = .cache_dir,
                     ExeNameInCache = .exe_name,
-                    NmExecutableOrPath = "nmfe74"
+                    NmExecutableOrPath = "nmfe74",
+                    OneEst = .one_est
                 )
             ),
             RunInfo = list(

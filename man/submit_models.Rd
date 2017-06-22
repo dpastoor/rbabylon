@@ -5,8 +5,8 @@
 \title{submit a model to an nmq server}
 \usage{
 submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
-  .cache_dir = "", .save_exe = "", .exe_name = "", .print = FALSE,
-  .no_submit = FALSE)
+  .cache_dir = "", .save_exe = "", .exe_name = "", .one_est = TRUE,
+  .print = FALSE, .no_submit = FALSE)
 }
 \arguments{
 \item{srvr}{address to the server}
@@ -25,11 +25,11 @@ submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
 
 \item{.exe_name}{name of executable to use for execution}
 
+\item{.one_est}{only estimate if no estimation dir exists}
+
 \item{.print}{print out the json representation of settings submitted}
 
 \item{.no_submit}{dont actually submit, instead return the list of settings}
-
-\item{.run_settings}{override run settings by providing a named list}
 }
 \description{
 submit a model to an nmq server
