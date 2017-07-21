@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>submit a model to an nmq server — submit_model â€¢ rbabylon</title>
+<title>submit models to an bbq server — submit_models â€¢ rbabylon</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,9 +23,10 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -51,6 +52,12 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -68,15 +75,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>submit a model to an nmq server</h1>
+    <h1>submit models to an bbq server</h1>
     </div>
 
     
-    <p>submit a model to an nmq server</p>
+    <p>submit models to an bbq server</p>
     
 
-    <pre><span class='fu'>submit_model</span>(<span class='no'>srvr</span>, <span class='no'>modelpath</span>, <span class='kw'>clean_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>copy_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>,
-  <span class='kw'>.run_settings</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.no_submit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>submit_models</span>(<span class='no'>srvr</span>, <span class='no'>modelpath</span>, <span class='kw'>clean_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>copy_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>,
+  <span class='kw'>.cache_dir</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.save_exe</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.exe_name</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.one_est</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>.print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.no_submit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.gitignore</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -102,8 +110,20 @@
       <td><p>nothing right now</p></td>
     </tr>
     <tr>
-      <th>.run_settings</th>
-      <td><p>override run settings by providing a named list</p></td>
+      <th>.cache_dir</th>
+      <td><p>cache directory</p></td>
+    </tr>
+    <tr>
+      <th>.save_exe</th>
+      <td><p>name to save the precompiled executable for later reference</p></td>
+    </tr>
+    <tr>
+      <th>.exe_name</th>
+      <td><p>name of executable to use for execution</p></td>
+    </tr>
+    <tr>
+      <th>.one_est</th>
+      <td><p>only estimate if no estimation dir exists</p></td>
     </tr>
     <tr>
       <th>.print</th>
@@ -113,23 +133,26 @@
       <th>.no_submit</th>
       <td><p>dont actually submit, instead return the list of settings</p></td>
     </tr>
+    <tr>
+      <th>.gitignore</th>
+      <td><p>add a blanket gitignore to ignore the folder from git</p></td>
+    </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>## Not run: ------------------------------------
-# # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
-## ---------------------------------------------</p>
-    
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># copy and clean lvl of 5 so only table files copied up and all intermediate files deleted</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>submit_model</span>(<span class='st'>"http://localhost:3333/models"</span>, <span class='no'>files</span>, <span class='fl'>5</span>, <span class='fl'>5</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-          </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
