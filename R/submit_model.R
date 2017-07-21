@@ -1,4 +1,4 @@
-#' submit a model to an nmq server
+#' submit models to an bbq server
 #' @param srvr address to the server
 #' @param modelpath absolute path to the model file to run
 #' @param clean_lvl level to clean nonmem intermediate files
@@ -11,9 +11,9 @@
 #' @param .print print out the json representation of settings submitted
 #' @param .no_submit dont actually submit, instead return the list of settings
 #' @param .gitignore add a blanket gitignore to ignore the folder from git
-#' @details \dontrun{
+#' @examples \dontrun{
 #' # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
-#; res <- submit_model("http://localhost:3333/models", files, 5, 5)
+#' res <- submit_model("http://localhost:3333/models", files, 5, 5)
 #' }
 #' @export
 submit_models <- function(srvr,
