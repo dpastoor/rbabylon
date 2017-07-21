@@ -10,6 +10,7 @@
 #' @param .one_est only estimate if no estimation dir exists
 #' @param .print print out the json representation of settings submitted
 #' @param .no_submit dont actually submit, instead return the list of settings
+#' @param .gitignore add a blanket gitignore to ignore the folder from git
 #' @details \dontrun{
 #' # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
 #; res <- submit_model("http://localhost:3333/models", files, 5, 5)
@@ -23,9 +24,10 @@ submit_models <- function(srvr,
                          .cache_dir = "",
                          .save_exe = "",
                          .exe_name = "",
-                         .one_est = TRUE,
+                         .one_est = FALSE,
                          .print = FALSE,
-                         .no_submit = FALSE) {
+                         .no_submit = FALSE,
+                         .gitignore = FALSE) {
     submission_values <- lapply(modelpath, function(m) {
         list(
             ID = 0,
@@ -33,7 +35,7 @@ submit_models <- function(srvr,
             ModelInfo = list(
                 ModelPath = m,
                 RunSettings = list(
-                    Git = TRUE,
+                    Git = .gitignore,
                     SaveExe = .save_exe,
                     Verbose = FALSE,
                     Debug = FALSE,
