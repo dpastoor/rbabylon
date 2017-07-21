@@ -2,11 +2,11 @@
 % Please edit documentation in R/submit_model.R
 \name{submit_models}
 \alias{submit_models}
-\title{submit a model to an nmq server}
+\title{submit models to an bbq server}
 \usage{
 submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
-  .cache_dir = "", .save_exe = "", .exe_name = "", .one_est = TRUE,
-  .print = FALSE, .no_submit = FALSE)
+  .cache_dir = "", .save_exe = "", .exe_name = "", .one_est = FALSE,
+  .print = FALSE, .no_submit = FALSE, .gitignore = FALSE)
 }
 \arguments{
 \item{srvr}{address to the server}
@@ -30,12 +30,15 @@ submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
 \item{.print}{print out the json representation of settings submitted}
 
 \item{.no_submit}{dont actually submit, instead return the list of settings}
+
+\item{.gitignore}{add a blanket gitignore to ignore the folder from git}
 }
 \description{
-submit a model to an nmq server
+submit models to an bbq server
 }
-\details{
+\examples{
 \dontrun{
 # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
+res <- submit_model("http://localhost:3333/models", files, 5, 5)
 }
 }
