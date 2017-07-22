@@ -76,7 +76,7 @@ Babylon <-
           submit_models = function(...) {
               submit_models(private$address, ...)
           },
-          get_models = function(status = NULL, STATUSES = c("QUEUED", "RUNNING", "COMPLETE", "ERROR")) {
+          get_models = function(status = NULL, STATUSES = c("QUEUED", "RUNNING", "COMPLETED", "ERROR"), parse = TRUE) {
               if (is.null(status)) {
                   models_resp <- safe_get(glue("{address}/models", address = private$address))$result
               } else {
@@ -85,8 +85,40 @@ Babylon <-
                   }
                   models_resp <- safe_get(glue("{address}/models?status={status}", address = private$address))$result
               }
+              if (parse) {
+                return(parse_response(models_resp))
+              }
               return(models_resp)
-
+          },
+          get_model = function(id, parse = TRUE) {
+              model_resp <- safe_get(glue("{address}/models/{id}", address = private$address))$result
+              if (parse) {
+                 return(parse_response(model_resp))
+              }
+              return(model_resp)
+          },
+          poll = function(.ids, until = c("COMPLETED", "ERROR"), timeout = Inf, interval = 1, print = FALSE) {
+             start_time <- Sys.time()
+             tick <- time_difference(Sys.time(), start_time)
+             while(tick < timeout) {
+                 resp <- purrr::map(.ids, ~ self$get_model(.x))
+                 until_status <- purrr::map_lgl(resp, ~ .x$Status %in% until)
+                 if (!all(until_status)) {
+                     if (print) {
+                        purrr::walk2(resp, until_status, function(.m, .s) {
+                             message(glue("model {.m$ID}, ready: {.s}, status: {.m$Status}"))
+                         })
+                     }
+                    Sys.sleep(interval)
+                    tick <- time_difference(Sys.time(), start_time)
+                 } else {
+                     return(resp)
+                 }
+             }
+             if (print) {
+                 warning("timed out!")
+             }
+             return(NULL)
           }
         ),
         private = list(
