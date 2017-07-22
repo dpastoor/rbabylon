@@ -44,6 +44,8 @@ time_difference <- function(end_time, start_time, units = "secs") {
 #' @section Methods:
 #' * `get_models(status, STATUSES)` - get information about models that have been submitted
 #' * `get_model(id)` - get information about a model
+#' * `poll(.ids, until, timeout, interval, print, parse)` - poll a vector of models by ID name until completion
+#'     * ids - vector if model ids
 #' @export
 Babylon <-
     R6::R6Class("Babylon",
@@ -73,8 +75,36 @@ Babylon <-
               }
               return(FALSE)
           },
-          submit_models = function(...) {
-              submit_models(private$address, ...)
+          submit_models = function(
+                         modelpath,
+                         clean_lvl = 1,
+                         copy_lvl = 1,
+                         ...,
+                         .cache_dir = "",
+                         .save_exe = "",
+                         .exe_name = "",
+                         .one_est = FALSE,
+                         .print = FALSE,
+                         .no_submit = FALSE,
+                         .gitignore = FALSE,
+                         parse = TRUE
+          ) {
+             resp <- submit_models(glue("{private$address}/models"),
+                         modelpath = modelpath,
+                         clean_lvl = clean_lvl,
+                         copy_lvl = copy_lvl,
+                         .cache_dir = .cache_dir,
+                         .save_exe = .save_exe,
+                         .exe_name = .exe_name,
+                         .one_est = .one_est,
+                         .print = .print,
+                         .no_submit = .no_submit,
+                         .gitignore = .gitignore
+                        )
+              if (parse) {
+                  return(parse_response(resp))
+              }
+             return(resp)
           },
           get_models = function(status = NULL, STATUSES = c("QUEUED", "RUNNING", "COMPLETED", "ERROR"), parse = TRUE) {
               if (is.null(status)) {
@@ -108,7 +138,7 @@ Babylon <-
              while(tick < timeout) {
                  # this could easily be optimized to track which models have met the until status
                  # and stop polling them.
-                 resp <- purrr::map(.ids, ~ self$get_model(.x))
+                 resp <- purrr::map(.ids, ~ self$get_model(.x, parse = parse))
                  until_status <- purrr::map_lgl(resp, ~ .x$Status %in% until)
                  if (!all(until_status)) {
                      if (print) {
@@ -119,11 +149,8 @@ Babylon <-
                     Sys.sleep(interval)
                     tick <- time_difference(Sys.time(), start_time)
                  } else {
-                     if (parse) {
-                        return(parse_response(resp))
-                     } else {
-                        return(resp)
-                     }
+                     # will be parsed or not during the self$get_model
+                     return(resp)
                  }
              }
              if (print) {
