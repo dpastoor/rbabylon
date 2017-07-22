@@ -27,7 +27,8 @@ submit_models <- function(srvr,
                          .one_est = FALSE,
                          .print = FALSE,
                          .no_submit = FALSE,
-                         .gitignore = FALSE) {
+                         .gitignore = FALSE
+                         ) {
     submission_values <- lapply(modelpath, function(m) {
         list(
             ID = 0,
