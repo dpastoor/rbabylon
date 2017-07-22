@@ -97,7 +97,12 @@ Babylon <-
               }
               return(model_resp)
           },
-          poll = function(.ids, until = c("COMPLETED", "ERROR"), timeout = Inf, interval = 1, print = FALSE) {
+          poll = function(.ids,
+                          until = c("COMPLETED", "ERROR"),
+                          timeout = Inf,
+                          interval = 1,
+                          print = FALSE,
+                          parse = TRUE) {
              start_time <- Sys.time()
              tick <- time_difference(Sys.time(), start_time)
              while(tick < timeout) {
@@ -114,7 +119,11 @@ Babylon <-
                     Sys.sleep(interval)
                     tick <- time_difference(Sys.time(), start_time)
                  } else {
-                     return(resp)
+                     if (parse) {
+                        return(parse_response(resp))
+                     } else {
+                        return(resp)
+                     }
                  }
              }
              if (print) {
