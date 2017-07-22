@@ -44,13 +44,16 @@ submit_models <- function(srvr,
                     CacheDir = .cache_dir,
                     ExeNameInCache = .exe_name,
                     NmExecutableOrPath = "nmfe74",
-                    OneEst = .one_est
+                    OneEst = .one_est,
+                    ProposedRunDir = ""
                 )
             ),
             RunInfo = list(
                 QueueTime = 0,
                 StartTime = 0,
-                Duration = 0
+                Duration = 0,
+                RunDir = "",
+                Error = ""
             )
         )
     })
