@@ -27,9 +27,35 @@ and can optionally take some initialization arguments:
 \section{Methods}{
 
 \itemize{
+\item \code{submit_models(modelpath, ...)} - check ?submit_models for arguments, the server is automatically set internally
 \item \code{get_models(status, STATUSES)} - get information about models that have been submitted
 \item \code{get_model(id)} - get information about a model
+\item \code{poll(.ids, until, timeout, interval, print, parse)} - poll a vector of models by ID name until completion
+\itemize{
+\item ids - vector if model ids
+\item until - status criteria to poll against, default to COMPLETED or ERROR
+\item timeout - length of time to poll before stopping
+\item print - whether to print the status of all models each poll
+\item parse - whether to parse the http response
+}
 }
 }
 
+\examples{
+\dontrun{
+bbq <- Babylon$new()
+bbq$get_models()
+
+# get all ids
+bbq$get_models \%>\% map_dbl("ID")
+
+# find all queued models
+bbq$get_models(status = "QUEUED") \%>\% map_dbl("ID")
+
+bbq$poll(1:5) # poll for models 1-5 to complete
+
+# get all directories for completed runs
+bbq$get_models(status = "COMPLETED") \%>\% map_chr(~ .x$RunInfo$RunDir)
+}
+}
 \keyword{datasets}
