@@ -101,6 +101,8 @@ Babylon <-
              start_time <- Sys.time()
              tick <- time_difference(Sys.time(), start_time)
              while(tick < timeout) {
+                 # this could easily be optimized to track which models have met the until status
+                 # and stop polling them.
                  resp <- purrr::map(.ids, ~ self$get_model(.x))
                  until_status <- purrr::map_lgl(resp, ~ .x$Status %in% until)
                  if (!all(until_status)) {
@@ -118,6 +120,9 @@ Babylon <-
              if (print) {
                  warning("timed out!")
              }
+             # right now returning null if not all complete, however it may also be reasonable
+             # to return all the ones that did complete in that timeframe, or even just the last resp
+             # so the user can decide what to do downstream. Maybe nested list(complete = TRUE/FALSE, resp = resp)
              return(NULL)
           }
         ),
