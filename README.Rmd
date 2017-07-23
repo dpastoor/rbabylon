@@ -3,3 +3,134 @@ rbabylon
 
 An R interface to the babylon ecosystem.
 
+## Babylon queue (bbq) interface
+
+`bbq` is a nonmem queue and model runner that exposes an http API for model submission and management.
+
+The overall structure of the information kept in bbq is a tree-like, therefore represented in R as a list.
+
+The primary fields are:
+
+* ID
+* Status
+* ModelInfo
+    * ModelPath
+    * Runsettings
+        * Git
+        * SaveExe
+        * Verbose
+        * Debug
+        * CleanLvl
+        * CopyLvl
+        * CacheDir
+        * ExeNameInCache
+        * NmExecutableOrPath
+        * OneEst
+        * ProposedRunDir
+* RunInfo
+    * QueueTime
+    * StartTime
+    * Duration
+    * RunDir
+    * Error
+
+
+For example:
+
+```json
+{
+	"ID": 11,
+	"Status": "COMPLETED",
+	"ModelInfo": {
+		"ModelPath": "C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\run001.mod",
+		"RunSettings": {
+			"Git": false,
+			"SaveExe": "",
+			"Verbose": false,
+			"Debug": false,
+			"CleanLvl": 5,
+			"CopyLvl": 5,
+			"CacheDir": "C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\mdlcache",
+			"ExeNameInCache": "run001.exe",
+			"NmExecutableOrPath": "nmfe74",
+			"OneEst": false,
+			"ProposedRunDir": ""
+		}
+	},
+	"RunInfo": {
+		"QueueTime": 0,
+		"StartTime": 1500764944,
+		"Duration": 0,
+		"RunDir": "C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\run001_est_07",
+		"Error": ""
+	}
+}
+```
+
+This information can be submitted and queried through `rbabylon`:
+
+```{r eval = F}
+bbq <- bbq_client()
+# or 
+bbq <- Babylon$new()
+```
+
+### submitting models
+
+model submission is done through the `submit_models` method. The only required bit of information
+is a path to the model file(s) to submit. If the path is not absolute, it will be considered relative
+to the current working directory. One mechanism is to call `normalizePath()` on the paths to let
+R clean and absolutify a path. For example, to submit all models in the dir "modeling/"
+```{r eval = F}
+models <- normalizePath(dir("modeling", pattern = "*.mod", full.names = TRUE))
+response <- bbq$submit_models(models)
+```
+
+The returned response object will contain the model IDs set by the server, so the submitted models can be
+easily queried
+
+```{r eval = F}
+model_ids <- reponse %>% map_dbl("ID")
+```
+
+
+### getting model information
+
+To get all models, can query with `bbq$get_models()`, which will
+provide a list of lists (a list of model-information-lists) for each run.
+
+For example, to extract a vector run directories for all complete models one could do:
+
+```
+bbq$get_models(status = "COMPLETED") %>% map_chr(~ .x$RunInfo$RunDir)
+```
+
+Hence, it is quite valuable to learn some functional programming techniques made available through
+the [purrr](http://purrr.tidyverse.org/) package
+
+
+### polling
+
+One common need is to run model(s) and do something after they are completed. If you are willing/want to block
+your R session, such that the remainder of code will not execute until the submitted models are completed
+you may use the `poll()` method, which takes a vector of model ID's, and will query the bbq server at
+intervals specified by the `interval` argument (default 10 seconds) until all models have one of the statuses
+specified in the `until` argument (default `COMPLETED` and `ERROR`).
+
+After all models achieve the specified status(es), or the `timeout` time has elapsed, the model's information
+will be returned, or if the timeout is elapsed, a NULL result is returned.
+
+This allows programmatic flows such as:
+
+```{r eval=F}
+bbq$poll(c(1, 2, 3)) %>%
+    # do postprocessing
+    post_process_models() %>%
+    ...etc
+```
+
+The 'downside' is it blocks your R-session while polling, though this behavior is sometimes desired, especially
+for short running models/simulations.
+
+Regardless, to asyncronously monitor run status, other mechanisms such as `slack` or text notifictions, 
+or monitoring through a separate web GUI are likely more ideal.
