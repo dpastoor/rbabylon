@@ -122,6 +122,101 @@ $(document).ready(function () {
 <div id="rbabylon" class="section level1">
 <h1>rbabylon</h1>
 <p>An R interface to the babylon ecosystem.</p>
+<div id="babylon-queue-bbq-interface" class="section level2">
+<h2>Babylon queue (bbq) interface</h2>
+<p><code>bbq</code> is a nonmem queue and model runner that exposes an http API for model submission and management.</p>
+<p>The overall structure of the information kept in bbq is a tree-like, therefore represented in R as a list.</p>
+<p>The primary fields are:</p>
+<ul>
+<li>ID</li>
+<li>Status</li>
+<li>ModelInfo
+<ul>
+<li>ModelPath</li>
+<li>Runsettings
+<ul>
+<li>Git</li>
+<li>SaveExe</li>
+<li>Verbose</li>
+<li>Debug</li>
+<li>CleanLvl</li>
+<li>CopyLvl</li>
+<li>CacheDir</li>
+<li>ExeNameInCache</li>
+<li>NmExecutableOrPath</li>
+<li>OneEst</li>
+<li>ProposedRunDir</li>
+</ul></li>
+</ul></li>
+<li>RunInfo
+<ul>
+<li>QueueTime</li>
+<li>StartTime</li>
+<li>Duration</li>
+<li>RunDir</li>
+<li>Error</li>
+</ul></li>
+</ul>
+<p>For example:</p>
+<pre class="json"><code>{
+    &quot;ID&quot;: 11,
+    &quot;Status&quot;: &quot;COMPLETED&quot;,
+    &quot;ModelInfo&quot;: {
+        &quot;ModelPath&quot;: &quot;C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\run001.mod&quot;,
+        &quot;RunSettings&quot;: {
+            &quot;Git&quot;: false,
+            &quot;SaveExe&quot;: &quot;&quot;,
+            &quot;Verbose&quot;: false,
+            &quot;Debug&quot;: false,
+            &quot;CleanLvl&quot;: 5,
+            &quot;CopyLvl&quot;: 5,
+            &quot;CacheDir&quot;: &quot;C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\mdlcache&quot;,
+            &quot;ExeNameInCache&quot;: &quot;run001.exe&quot;,
+            &quot;NmExecutableOrPath&quot;: &quot;nmfe74&quot;,
+            &quot;OneEst&quot;: false,
+            &quot;ProposedRunDir&quot;: &quot;&quot;
+        }
+    },
+    &quot;RunInfo&quot;: {
+        &quot;QueueTime&quot;: 0,
+        &quot;StartTime&quot;: 1500764944,
+        &quot;Duration&quot;: 0,
+        &quot;RunDir&quot;: &quot;C:\\golang\\src\\github.com\\dpastoor\\babylon\\testdata\\run001_est_07&quot;,
+        &quot;Error&quot;: &quot;&quot;
+    }
+}</code></pre>
+<p>This information can be submitted and queried through <code>rbabylon</code>:</p>
+<pre class="r"><code>bbq &lt;- bbq_client()
+# or 
+bbq &lt;- Babylon$new()</code></pre>
+<div id="submitting-models" class="section level3">
+<h3>submitting models</h3>
+<p>model submission is done through the <code>submit_models</code> method. The only required bit of information is a path to the model file(s) to submit. If the path is not absolute, it will be considered relative to the current working directory. One mechanism is to call <code>normalizePath()</code> on the paths to let R clean and absolutify a path. For example, to submit all models in the dir “modeling/”</p>
+<pre class="r"><code>models &lt;- normalizePath(dir(&quot;modeling&quot;, pattern = &quot;*.mod&quot;, full.names = TRUE))
+response &lt;- bbq$submit_models(models)</code></pre>
+<p>The returned response object will contain the model IDs set by the server, so the submitted models can be easily queried</p>
+<pre class="r"><code>model_ids &lt;- reponse %&gt;% map_dbl(&quot;ID&quot;)</code></pre>
+</div>
+<div id="getting-model-information" class="section level3">
+<h3>getting model information</h3>
+<p>To get all models, can query with <code>bbq$get_models()</code>, which will provide a list of lists (a list of model-information-lists) for each run.</p>
+<p>For example, to extract a vector run directories for all complete models one could do:</p>
+<pre><code>bbq$get_models(status = &quot;COMPLETED&quot;) %&gt;% map_chr(~ .x$RunInfo$RunDir)</code></pre>
+<p>Hence, it is quite valuable to learn some functional programming techniques made available through the <a href="http://purrr.tidyverse.org/">purrr</a> package</p>
+</div>
+<div id="polling" class="section level3">
+<h3>polling</h3>
+<p>One common need is to run model(s) and do something after they are completed. If you are willing/want to block your R session, such that the remainder of code will not execute until the submitted models are completed you may use the <code>poll()</code> method, which takes a vector of model ID’s, and will query the bbq server at intervals specified by the <code>interval</code> argument (default 10 seconds) until all models have one of the statuses specified in the <code>until</code> argument (default <code>COMPLETED</code> and <code>ERROR</code>).</p>
+<p>After all models achieve the specified status(es), or the <code>timeout</code> time has elapsed, the model’s information will be returned, or if the timeout is elapsed, a NULL result is returned.</p>
+<p>This allows programmatic flows such as:</p>
+<pre class="r"><code>bbq$poll(c(1, 2, 3)) %&gt;%
+    # do postprocessing
+    post_process_models() %&gt;%
+    ...etc</code></pre>
+<p>The ‘downside’ is it blocks your R-session while polling, though this behavior is sometimes desired, especially for short running models/simulations.</p>
+<p>Regardless, to asyncronously monitor run status, other mechanisms such as <code>slack</code> or text notifictions, or monitoring through a separate web GUI are likely more ideal.</p>
+</div>
+</div>
 </div>
 
 

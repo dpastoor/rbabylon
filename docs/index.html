@@ -58,6 +58,108 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rbabylon" class="anchor"></a>rbabylon</h1></div>
 <p>An R interface to the babylon ecosystem.</p>
+<div id="babylon-queue-bbq-interface" class="section level2">
+<h2 class="hasAnchor">
+<a href="#babylon-queue-bbq-interface" class="anchor"></a>Babylon queue (bbq) interface</h2>
+<p><code>bbq</code> is a nonmem queue and model runner that exposes an http API for model submission and management.</p>
+<p>The overall structure of the information kept in bbq is a tree-like, therefore represented in R as a list.</p>
+<p>The primary fields are:</p>
+<ul>
+<li>ID</li>
+<li>Status</li>
+<li>ModelInfo
+<ul>
+<li>ModelPath</li>
+<li>Runsettings
+<ul>
+<li>Git</li>
+<li>SaveExe</li>
+<li>Verbose</li>
+<li>Debug</li>
+<li>CleanLvl</li>
+<li>CopyLvl</li>
+<li>CacheDir</li>
+<li>ExeNameInCache</li>
+<li>NmExecutableOrPath</li>
+<li>OneEst</li>
+<li>ProposedRunDir</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RunInfo
+<ul>
+<li>QueueTime</li>
+<li>StartTime</li>
+<li>Duration</li>
+<li>RunDir</li>
+<li>Error</li>
+</ul>
+</li>
+</ul>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+    <span class="dt">"ID"</span><span class="fu">:</span> <span class="dv">11</span><span class="fu">,</span>
+    <span class="dt">"Status"</span><span class="fu">:</span> <span class="st">"COMPLETED"</span><span class="fu">,</span>
+    <span class="dt">"ModelInfo"</span><span class="fu">:</span> <span class="fu">{</span>
+        <span class="dt">"ModelPath"</span><span class="fu">:</span> <span class="st">"C:</span><span class="ch">\\</span><span class="st">golang</span><span class="ch">\\</span><span class="st">src</span><span class="ch">\\</span><span class="st">github.com</span><span class="ch">\\</span><span class="st">dpastoor</span><span class="ch">\\</span><span class="st">babylon</span><span class="ch">\\</span><span class="st">testdata</span><span class="ch">\\</span><span class="st">run001.mod"</span><span class="fu">,</span>
+        <span class="dt">"RunSettings"</span><span class="fu">:</span> <span class="fu">{</span>
+            <span class="dt">"Git"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+            <span class="dt">"SaveExe"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span>
+            <span class="dt">"Verbose"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+            <span class="dt">"Debug"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+            <span class="dt">"CleanLvl"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span>
+            <span class="dt">"CopyLvl"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span>
+            <span class="dt">"CacheDir"</span><span class="fu">:</span> <span class="st">"C:</span><span class="ch">\\</span><span class="st">golang</span><span class="ch">\\</span><span class="st">src</span><span class="ch">\\</span><span class="st">github.com</span><span class="ch">\\</span><span class="st">dpastoor</span><span class="ch">\\</span><span class="st">babylon</span><span class="ch">\\</span><span class="st">testdata</span><span class="ch">\\</span><span class="st">mdlcache"</span><span class="fu">,</span>
+            <span class="dt">"ExeNameInCache"</span><span class="fu">:</span> <span class="st">"run001.exe"</span><span class="fu">,</span>
+            <span class="dt">"NmExecutableOrPath"</span><span class="fu">:</span> <span class="st">"nmfe74"</span><span class="fu">,</span>
+            <span class="dt">"OneEst"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+            <span class="dt">"ProposedRunDir"</span><span class="fu">:</span> <span class="st">""</span>
+        <span class="fu">}</span>
+    <span class="fu">},</span>
+    <span class="dt">"RunInfo"</span><span class="fu">:</span> <span class="fu">{</span>
+        <span class="dt">"QueueTime"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span>
+        <span class="dt">"StartTime"</span><span class="fu">:</span> <span class="dv">1500764944</span><span class="fu">,</span>
+        <span class="dt">"Duration"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span>
+        <span class="dt">"RunDir"</span><span class="fu">:</span> <span class="st">"C:</span><span class="ch">\\</span><span class="st">golang</span><span class="ch">\\</span><span class="st">src</span><span class="ch">\\</span><span class="st">github.com</span><span class="ch">\\</span><span class="st">dpastoor</span><span class="ch">\\</span><span class="st">babylon</span><span class="ch">\\</span><span class="st">testdata</span><span class="ch">\\</span><span class="st">run001_est_07"</span><span class="fu">,</span>
+        <span class="dt">"Error"</span><span class="fu">:</span> <span class="st">""</span>
+    <span class="fu">}</span>
+<span class="fu">}</span></code></pre></div>
+<p>This information can be submitted and queried through <code>rbabylon</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bbq &lt;-<span class="st"> </span><span class="kw">bbq_client</span>()
+<span class="co"># or </span>
+bbq &lt;-<span class="st"> </span>Babylon<span class="op">$</span><span class="kw">new</span>()</code></pre></div>
+<div id="submitting-models" class="section level3">
+<h3 class="hasAnchor">
+<a href="#submitting-models" class="anchor"></a>submitting models</h3>
+<p>model submission is done through the <code>submit_models</code> method. The only required bit of information is a path to the model file(s) to submit. If the path is not absolute, it will be considered relative to the current working directory. One mechanism is to call <code>normalizePath()</code> on the paths to let R clean and absolutify a path. For example, to submit all models in the dir “modeling/”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models &lt;-<span class="st"> </span><span class="kw">normalizePath</span>(<span class="kw">dir</span>(<span class="st">"modeling"</span>, <span class="dt">pattern =</span> <span class="st">"*.mod"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>))
+response &lt;-<span class="st"> </span>bbq<span class="op">$</span><span class="kw"><a href="reference/submit_models.html">submit_models</a></span>(models)</code></pre></div>
+<p>The returned response object will contain the model IDs set by the server, so the submitted models can be easily queried</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_ids &lt;-<span class="st"> </span>reponse <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="st">"ID"</span>)</code></pre></div>
+</div>
+<div id="getting-model-information" class="section level3">
+<h3 class="hasAnchor">
+<a href="#getting-model-information" class="anchor"></a>getting model information</h3>
+<p>To get all models, can query with <code>bbq$get_models()</code>, which will provide a list of lists (a list of model-information-lists) for each run.</p>
+<p>For example, to extract a vector run directories for all complete models one could do:</p>
+<pre><code>bbq$get_models(status = "COMPLETED") %&gt;% map_chr(~ .x$RunInfo$RunDir)</code></pre>
+<p>Hence, it is quite valuable to learn some functional programming techniques made available through the <a href="http://purrr.tidyverse.org/">purrr</a> package</p>
+</div>
+<div id="polling" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polling" class="anchor"></a>polling</h3>
+<p>One common need is to run model(s) and do something after they are completed. If you are willing/want to block your R session, such that the remainder of code will not execute until the submitted models are completed you may use the <code>poll()</code> method, which takes a vector of model ID’s, and will query the bbq server at intervals specified by the <code>interval</code> argument (default 10 seconds) until all models have one of the statuses specified in the <code>until</code> argument (default <code>COMPLETED</code> and <code>ERROR</code>).</p>
+<p>After all models achieve the specified status(es), or the <code>timeout</code> time has elapsed, the model’s information will be returned, or if the timeout is elapsed, a NULL result is returned.</p>
+<p>This allows programmatic flows such as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bbq<span class="op">$</span><span class="kw">poll</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="co"># do postprocessing</span>
+<span class="st">    </span><span class="kw">post_process_models</span>() <span class="op">%&gt;%</span>
+<span class="st">    </span>...etc</code></pre></div>
+<p>The ‘downside’ is it blocks your R-session while polling, though this behavior is sometimes desired, especially for short running models/simulations.</p>
+<p>Regardless, to asyncronously monitor run status, other mechanisms such as <code>slack</code> or text notifictions, or monitoring through a separate web GUI are likely more ideal.</p>
+</div>
+</div>
 </div>
 </div>
   </div>
