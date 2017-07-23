@@ -67,7 +67,10 @@ For example:
 }
 ```
 
-This information can be submitted and queried through `rbabylon`:
+## rbabylon
+
+Interaction with bbq in R can occur over the http api to submit and query models. An ORM of sorts
+is exposed through `rbabylon` as the Babylon class:
 
 ```{r eval = F}
 bbq <- bbq_client()

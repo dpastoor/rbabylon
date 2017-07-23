@@ -185,7 +185,10 @@ $(document).ready(function () {
         &quot;Error&quot;: &quot;&quot;
     }
 }</code></pre>
-<p>This information can be submitted and queried through <code>rbabylon</code>:</p>
+</div>
+<div id="rbabylon-1" class="section level2">
+<h2>rbabylon</h2>
+<p>Interaction with bbq in R can occur over the http api to submit and query models. An ORM of sorts is exposed through <code>rbabylon</code> as the Babylon class:</p>
 <pre class="r"><code>bbq &lt;- bbq_client()
 # or 
 bbq &lt;- Babylon$new()</code></pre>
