@@ -11,28 +11,28 @@ The overall structure of the information kept in bbq is a tree-like, therefore r
 
 The primary fields are:
 
-* ID
-* Status
-* ModelInfo
-    * ModelPath
-    * Runsettings
-        * Git
-        * SaveExe
-        * Verbose
-        * Debug
-        * CleanLvl
-        * CopyLvl
-        * CacheDir
-        * ExeNameInCache
-        * NmExecutableOrPath
-        * OneEst
-        * ProposedRunDir
-* RunInfo
-    * QueueTime
-    * StartTime
-    * Duration
-    * RunDir
-    * Error
+* id
+* status
+* model_info
+    * model_path
+    * run_settings
+        * git
+        * save_exe
+        * verbose
+        * debug
+        * clean_lvl
+        * copy_lvl
+        * cache_dir
+        * exe_name_in_cache
+        * nm_executable_or_path
+        * one_est
+        * proposed_run_dir
+* run_info
+    * queue_time,
+    * start_time,
+    * duration,
+    * run_dir,
+    * error
 
 
 For example:
@@ -93,7 +93,7 @@ The returned response object will contain the model IDs set by the server, so th
 easily queried
 
 ```{r eval = F}
-model_ids <- reponse %>% map_dbl("ID")
+model_ids <- reponse %>% map_dbl("id")
 ```
 
 
