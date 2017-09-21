@@ -36,25 +36,25 @@ submit_models <- function(srvr,
             ModelInfo = list(
                 ModelPath = m,
                 RunSettings = list(
-                    Git = .gitignore,
-                    SaveExe = .save_exe,
-                    Verbose = FALSE,
-                    Debug = FALSE,
-                    CleanLvl = clean_lvl,
-                    CopyLvl = copy_lvl,
-                    CacheDir = .cache_dir,
-                    ExeNameInCache = .exe_name,
-                    NmExecutableOrPath = "nmfe74",
-                    OneEst = .one_est,
-                    ProposedRunDir = ""
+                    git = .gitignore,
+                    save_exe = .save_exe,
+                    verbose = FALSE,
+                    debug = FALSE,
+                    lean_lvl = clean_lvl,
+                    copy_lvl = copy_lvl,
+                    cache_dir = .cache_dir,
+                    exe_name_in_cache = .exe_name,
+                    nm_executable_or_path = "nmfe74",
+                    one_est = .one_est,
+                    proposed_run_dir = ""
                 )
             ),
             RunInfo = list(
-                QueueTime = 0,
-                StartTime = 0,
-                Duration = 0,
-                RunDir = "",
-                Error = ""
+                queue_time = 0,
+                start_time = 0,
+                duration = 0,
+                run_dir = "",
+                error = ""
             )
         )
     })
