@@ -86,6 +86,10 @@ Babylon <-
                   if(!self$ping()) {
                       stop(glue("server not responding at {srvr}", srvr = private$address))
                   }
+                  version <- self$get_version()
+                  if (compareVersion(version, "1.0.0") < 0) {
+                     stop("please upgrade bbq to at least version 1.0.0 to maintain compatibility")
+                  }
               }
               if (verbose) {
                  message("")
@@ -95,6 +99,18 @@ Babylon <-
               resp <- safe_get(glue("{address}/ping", address = private$address))$result
               if (!is.null(resp)) {
                   return(TRUE)
+              }
+              return(FALSE)
+          },
+          get_version = function() {
+              if (!is.null(private$version)) {
+                  return(private$version)
+              }
+              resp <- safe_get(glue("{address}/version", address = private$address))$result
+              if (!is.null(resp)) {
+                  version <- rawToChar(resp$content)
+                  private$version <- version
+                  return(version)
               }
               return(FALSE)
           },
@@ -186,7 +202,8 @@ Babylon <-
           }
         ),
         private = list(
-            address = NULL
+            address = NULL,
+            version = NULL
         )
 )
 
@@ -203,7 +220,11 @@ bbq_client <- function(init = NULL,
                        port = 3333,
                        verbose = TRUE,
                        must_work = TRUE) {
-    Babylon$new(init = init, host = host, port = port, verbose = verbose, must_work = must_work)
+    Babylon$new(init = init,
+                host = host,
+                port = port,
+                verbose = verbose,
+                must_work = must_work)
 }
 
 #bab <- Babylon$new()
