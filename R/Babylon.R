@@ -162,11 +162,11 @@ Babylon <-
                  # this could easily be optimized to track which models have met the until status
                  # and stop polling them.
                  resp <- purrr::map(.ids, ~ self$get_model(.x, parse = parse))
-                 until_status <- purrr::map_lgl(resp, ~ .x$Status %in% until)
+                 until_status <- purrr::map_lgl(resp, ~ .x$status %in% until)
                  if (!all(until_status)) {
                      if (print) {
                         purrr::walk2(resp, until_status, function(.m, .s) {
-                             message(glue("model {.m$ID}, ready: {.s}, status: {.m$Status}"))
+                             message(glue("model {.m$id}, ready: {.s}, status: {.m$status}"))
                          })
                      }
                     Sys.sleep(interval)
