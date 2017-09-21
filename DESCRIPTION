@@ -9,7 +9,7 @@ Authors@R: c(
     )
 Description: manage, submit, and process models
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.2.0)
 Imports: 
     R6,
     data.table,
