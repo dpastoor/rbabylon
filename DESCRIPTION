@@ -10,11 +10,15 @@ Authors@R: c(
 Description: manage, submit, and process models
 Depends:
     R (>= 3.3.0)
-Imports:
+Imports: 
+    R6,
     data.table,
     dplyr,
+    glue,
     httr,
-    jsonlite
+    jsonlite,
+    magrittr,
+    purrr
 Suggests:
     testthat
 License: MIT + file LICENSE
