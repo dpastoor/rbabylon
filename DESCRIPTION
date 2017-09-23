@@ -21,6 +21,7 @@ Imports:
     purrr
 Suggests: 
     testthat,
-    covr
+    covr,
+    knitr
 License: MIT + file LICENSE
 VignetteBuilder: knitr
