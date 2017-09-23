@@ -140,9 +140,12 @@ Babylon <-
                          .no_submit = .no_submit,
                          .gitignore = .gitignore
                         )
-              if (parse) {
-                  return(parse_response(resp))
-              }
+             if (.no_submit) {
+                 return(resp)
+             }
+             if (parse) {
+                 return(parse_response(resp))
+             }
              return(resp)
           },
           get_models = function(status = NULL, STATUSES = c("QUEUED", "RUNNING", "COMPLETED", "ERROR"), parse = TRUE) {
