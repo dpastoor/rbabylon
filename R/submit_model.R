@@ -31,16 +31,16 @@ submit_models <- function(srvr,
                          ) {
     submission_values <- lapply(modelpath, function(m) {
         list(
-            ID = 0,
-            Status = "QUEUED",
-            ModelInfo = list(
-                ModelPath = m,
-                RunSettings = list(
+            id = 0,
+            status = "QUEUED",
+            model_info = list(
+                model_path = m,
+                run_settings = list(
                     git = .gitignore,
                     save_exe = .save_exe,
                     verbose = FALSE,
                     debug = FALSE,
-                    lean_lvl = clean_lvl,
+                    clean_lvl = clean_lvl,
                     copy_lvl = copy_lvl,
                     cache_dir = .cache_dir,
                     exe_name_in_cache = .exe_name,
@@ -49,7 +49,7 @@ submit_models <- function(srvr,
                     proposed_run_dir = ""
                 )
             ),
-            RunInfo = list(
+            run_info = list(
                 queue_time = 0,
                 start_time = 0,
                 duration = 0,
