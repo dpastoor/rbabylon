@@ -19,7 +19,8 @@ Imports:
     jsonlite,
     magrittr,
     purrr
-Suggests:
-    testthat
+Suggests: 
+    testthat,
+    covr
 License: MIT + file LICENSE
 VignetteBuilder: knitr
