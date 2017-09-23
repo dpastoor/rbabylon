@@ -1,6 +1,6 @@
 [![Travis build status](https://travis-ci.org/dpastoor/rbabylon.svg?branch=master)](https://travis-ci.org/dpastoor/rbabylon)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dpastoor/rbabylon?branch=master&svg=true)](https://ci.appveyor.com/project/dpastoor/rbabylon)
- 
+[![Coverage status](https://codecov.io/gh/dpastoor/rbabylon/branch/master/graph/badge.svg)](https://codecov.io/github/dpastoor/rbabylon?branch=master)
 rbabylon
 ============
 
