@@ -6,7 +6,8 @@
 \usage{
 submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
   .cache_dir = "", .save_exe = "", .exe_name = "", .one_est = FALSE,
-  .print = FALSE, .no_submit = FALSE, .gitignore = FALSE)
+  .print = FALSE, .no_submit = FALSE, .gitignore = FALSE,
+  nm_executable_or_path = "nmfe74")
 }
 \arguments{
 \item{srvr}{address to the server}
@@ -32,6 +33,8 @@ submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
 \item{.no_submit}{dont actually submit, instead return the list of settings}
 
 \item{.gitignore}{add a blanket gitignore to ignore the folder from git}
+
+\item{nm_executable_or_path}{name or path to nonmem executable, DEFAULT: nmfe74}
 }
 \description{
 submit models to an bbq server

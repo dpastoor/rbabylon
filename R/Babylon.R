@@ -126,6 +126,7 @@ Babylon <-
                          .print = FALSE,
                          .no_submit = FALSE,
                          .gitignore = FALSE,
+                         nm_executable_or_path = "nmfe74",
                          parse = TRUE
           ) {
              resp <- submit_models(glue("{private$address}/models"),
@@ -138,7 +139,8 @@ Babylon <-
                          .one_est = .one_est,
                          .print = .print,
                          .no_submit = .no_submit,
-                         .gitignore = .gitignore
+                         .gitignore = .gitignore,
+                         nm_executable_or_path = nm_executable_or_path
                         )
              if (.no_submit) {
                  return(resp)
