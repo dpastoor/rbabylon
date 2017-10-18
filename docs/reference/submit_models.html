@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>submit models to an bbq server � submit_models • rbabylon</title>
+<title>submit models to an bbq server — submit_models • rbabylon</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -84,7 +84,8 @@
 
     <pre class="usage"><span class='fu'>submit_models</span>(<span class='no'>srvr</span>, <span class='no'>modelpath</span>, <span class='kw'>clean_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>copy_lvl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>,
   <span class='kw'>.cache_dir</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.save_exe</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.exe_name</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>.one_est</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.no_submit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.gitignore</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>.print</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.no_submit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.gitignore</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>nm_executable_or_path</span> <span class='kw'>=</span> <span class='st'>"nmfe74"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -136,6 +137,10 @@
     <tr>
       <th>.gitignore</th>
       <td><p>add a blanket gitignore to ignore the folder from git</p></td>
+    </tr>
+    <tr>
+      <th>nm_executable_or_path</th>
+      <td><p>name or path to nonmem executable, DEFAULT: nmfe74</p></td>
     </tr>
     </table>
     
