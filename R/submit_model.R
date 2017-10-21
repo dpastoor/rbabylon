@@ -12,6 +12,8 @@
 #' @param .no_submit dont actually submit, instead return the list of settings
 #' @param .gitignore add a blanket gitignore to ignore the folder from git
 #' @param nm_executable_or_path name or path to nonmem executable, DEFAULT: nmfe74
+#' @param debug debug mode
+#' @param verbose verbose output from server
 #' @examples \dontrun{
 #' # copy and clean lvl of 5 so only table files copied up and all intermediate files deleted
 #' res <- submit_model("http://localhost:3333/models", files, 5, 5)
@@ -29,7 +31,9 @@ submit_models <- function(srvr,
                          .print = FALSE,
                          .no_submit = FALSE,
                          .gitignore = FALSE,
-                         nm_executable_or_path = "nmfe74"
+                         nm_executable_or_path = "nmfe74",
+                         debug = debug,
+                         verbose = verbose
                          ) {
     submission_values <- lapply(modelpath, function(m) {
         list(
@@ -40,8 +44,8 @@ submit_models <- function(srvr,
                 run_settings = list(
                     git = .gitignore,
                     save_exe = .save_exe,
-                    verbose = FALSE,
-                    debug = FALSE,
+                    verbose = verbose,
+                    debug = debug,
                     clean_lvl = clean_lvl,
                     copy_lvl = copy_lvl,
                     cache_dir = .cache_dir,
