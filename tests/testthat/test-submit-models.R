@@ -39,7 +39,8 @@ describe("submitting models is structurally correct", {
                                 )
                             )
                         ),
-                        .Names = c("model_path", "run_settings")
+                        .Names = c("model_path",
+                                   "run_settings")
                     ),
                     run_info = structure(
                         list(
@@ -61,6 +62,9 @@ describe("submitting models is structurally correct", {
                 .Names = c("id",
                            "status", "model_info", "run_info")
             ))
-        expect_equal(submit_models(NULL, "path/to/model.mod", .no_submit = TRUE), manually_checked)
+        expect_equal(
+            submit_models(NULL, "path/to/model.mod", .no_submit = TRUE),
+            manually_checked
+        )
     })
 })

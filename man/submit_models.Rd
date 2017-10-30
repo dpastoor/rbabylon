@@ -7,7 +7,7 @@
 submit_models(srvr, modelpath, clean_lvl = 1, copy_lvl = 1, ...,
   .cache_dir = "", .save_exe = "", .exe_name = "", .one_est = FALSE,
   .print = FALSE, .no_submit = FALSE, .gitignore = FALSE,
-  nm_executable_or_path = "nmfe74", debug = debug, verbose = verbose)
+  nm_executable_or_path = "nmfe74", debug = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{srvr}{address to the server}

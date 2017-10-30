@@ -32,8 +32,8 @@ submit_models <- function(srvr,
                          .no_submit = FALSE,
                          .gitignore = FALSE,
                          nm_executable_or_path = "nmfe74",
-                         debug = debug,
-                         verbose = verbose
+                         debug = FALSE,
+                         verbose = FALSE
                          ) {
     submission_values <- lapply(modelpath, function(m) {
         list(
