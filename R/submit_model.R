@@ -50,7 +50,7 @@ submit_models <- function(srvr,
                     copy_lvl = copy_lvl,
                     cache_dir = .cache_dir,
                     exe_name_in_cache = .exe_name,
-                    nm_executable_or_path = "nmfe74",
+                    nm_executable_or_path = nm_executable_or_path,
                     one_est = .one_est,
                     proposed_run_dir = ""
                 )
