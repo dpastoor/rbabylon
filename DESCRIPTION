@@ -12,6 +12,7 @@ Depends:
     R (>= 3.2.0)
 Imports: 
     R6,
+    readr,
     data.table,
     dplyr,
     glue,
