@@ -14,6 +14,7 @@ start_bbq <- function(workers = parallel::detectCores(logical = FALSE),
 #' @param clean_lvl clean level 1-5
 #' @param copy_lvl copy level 1-5
 #' @param ... additional config key values to create
+#' @importFrom utils modifyList
 #' @export
 create_config <- function(
     nm_executable = "nmfe74",
