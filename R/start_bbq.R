@@ -54,8 +54,12 @@ start_bbq_with_config <- function(
         config$start_dir <- NULL
     }
     config_toml <- purrr::map2(names(config), config, function(.n, .c) {
-        glue::glue('{.n} = "{.c}"')
+        if (is.numeric(.c)) {
+            glue::glue('{.n} = {.c}')
+        } else {
+            glue::glue('{.n} = "{.c}"')
+        }
     })
-    write_lines(config_toml, "babylonconfig.toml")
+    readr::write_lines(config_toml, "babylonconfig.toml")
     start_bbq(...)
 }
