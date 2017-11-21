@@ -39,6 +39,9 @@ create_config <- function(
 #' @details
 #' if config contains a configuration labelled start_dir
 #' will automatically start from that directory
+#'
+#' configuration is set by writing the babylonconfig.toml
+#' file in that directory, which should be picked up
 #' @examples \dontrun{
 #' bbq_pid <- start_bbq_with_config(create_config(start_dir = "path/to/dir"))
 #' }
