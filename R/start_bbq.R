@@ -1,12 +1,30 @@
+#' get the bbq version on the system
+#' @param bbq_path path to bbq
+#' @export
+bbq_version <- function(bbq_path = "bbq") {
+    ver <- tryCatch(
+        processx::process$new(bbq_path, "--version", stdout = "|"),
+        error = function(e) e
+    )
+    if (inherits(ver, 'simpleError')) {
+        gstop("error trying to detect bbq, are you sure it is on path {bbq_path}")
+    }
+    package_version(ver$read_all_output_lines())
+}
+
 #' start a bbq server
+#' @param bbq_path path to bbq DEFAULT: 'bbq'
 #' @param workers number of worker threads, defaults to number of physical cores
 #' @param stdout where to pipe stdout
 #' @param stderr where to pipe stderr
 #' @export
-start_bbq <- function(workers = parallel::detectCores(logical = FALSE),
+start_bbq <- function(bbq_path = "bbq", workers = parallel::detectCores(logical = FALSE),
                       stdout = "bbq_server.stdout",
                       stderr = "bbq_server.stderr") {
-    processx::process$new("bbq", c("-w", workers), stdout = stdout, stderr = stderr)
+    if (!(bbq_version(bbq_path) >= package_version("1.1.1"))) {
+        stop("bbq version must be >= 1.1.1")
+    }
+    processx::process$new(bbq_path, c("-w", workers), stdout = stdout, stderr = stderr)
 }
 
 #' create config
@@ -46,6 +64,7 @@ create_config <- function(
 #' bbq_pid <- start_bbq_with_config(create_config(start_dir = "path/to/dir"))
 #' }
 #' @return processx process
+#' @importFrom utils modifyList
 #' @export
 start_bbq_with_config <- function(
     config,
@@ -55,15 +74,18 @@ start_bbq_with_config <- function(
         owd <- normalizePath(getwd())
         on.exit(setwd(owd), add = TRUE)
         setwd(config$start_dir)
-        config$start_dir <- NULL
+        # this will remove start_dir
+        config <- modifyList(config, list(start_dir = NULL))
     }
-    config_toml <- purrr::map2(names(config), config, function(.n, .c) {
-        if (is.numeric(.c)) {
-            glue::glue('{.n} = {.c}')
-        } else {
-            glue::glue('{.n} = "{.c}"')
-        }
-    })
+    if (length(config)) {
+        config_toml <- purrr::map2(names(config), config, function(.n, .c) {
+            if (is.numeric(.c)) {
+                glue::glue('{.n} = {.c}')
+            } else {
+                glue::glue('{.n} = "{.c}"')
+            }
+        })
+    }
     readr::write_lines(config_toml, "babylonconfig.toml")
     start_bbq(...)
 }

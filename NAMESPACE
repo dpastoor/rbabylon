@@ -3,6 +3,7 @@
 export("%>%")
 export(Babylon)
 export(bbq_client)
+export(bbq_version)
 export(create_config)
 export(last_est_dir_factory)
 export(read_fort_factory)
