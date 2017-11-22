@@ -84,6 +84,8 @@ start_bbq_with_config <- function(
     }
     if (length(config)) {
         config_toml <- purrr::map2(names(config), config, function(.n, .c) {
+            # this is pretty hacky but basically can keep the resulting
+            # toml to generate a string or numeric quote for outputs
             if (is.numeric(.c)) {
                 glue::glue('{.n} = {.c}')
             } else {
