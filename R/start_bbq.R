@@ -18,13 +18,18 @@ bbq_version <- function(bbq_path = "bbq") {
 #' @param stdout where to pipe stdout
 #' @param stderr where to pipe stderr
 #' @export
-start_bbq <- function(bbq_path = "bbq", workers = parallel::detectCores(logical = FALSE),
+start_bbq <- function(bbq_path = "bbq",
+                      workers = parallel::detectCores(logical = FALSE),
                       stdout = "bbq_server.stdout",
                       stderr = "bbq_server.stderr") {
-    if (!(bbq_version(bbq_path) >= package_version("1.1.1"))) {
+    bbqv <- bbq_version(bbq_path)
+    if (!(bbqv >= package_version("1.1.1"))) {
         stop("bbq version must be >= 1.1.1")
     }
-    processx::process$new(bbq_path, c("-w", workers), stdout = stdout, stderr = stderr)
+    pid <- processx::process$new(bbq_path, c("-w", workers),
+                                 stdout = stdout, stderr = stderr)
+    "!DEBUG starting bbq with version `bbqv` on pid `pid$get_pid()`"
+    return(pid)
 }
 
 #' create config
