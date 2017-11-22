@@ -90,7 +90,7 @@ start_bbq_with_config <- function(
                 glue::glue('{.n} = "{.c}"')
             }
         })
+        readr::write_lines(config_toml, "babylonconfig.toml")
     }
-    readr::write_lines(config_toml, "babylonconfig.toml")
     start_bbq(...)
 }
