@@ -4,10 +4,12 @@
 \alias{start_bbq}
 \title{start a bbq server}
 \usage{
-start_bbq(workers = parallel::detectCores(logical = FALSE),
-  stdout = "bbq_server.stdout", stderr = "bbq_server.stderr")
+start_bbq(bbq_path = "bbq", workers = parallel::detectCores(logical =
+  FALSE), stdout = "bbq_server.stdout", stderr = "bbq_server.stderr")
 }
 \arguments{
+\item{bbq_path}{path to bbq DEFAULT: 'bbq'}
+
 \item{workers}{number of worker threads, defaults to number of physical cores}
 
 \item{stdout}{where to pipe stdout}
